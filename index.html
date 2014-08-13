@@ -1,0 +1,368 @@
+<!doctype html>
+<html lang="en">
+
+	<head>
+		<meta charset="utf-8">
+
+		<title>LondonAPI</title>
+
+		<meta name="description" content="SMTP, older than I am">
+		<meta name="author" content="Toby Sims">
+
+		<meta name="apple-mobile-web-app-capable" content="yes" />
+		<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+		<link rel="stylesheet" href="css/reveal.min.css">
+		<link rel="stylesheet" href="css/theme/sky.css" id="theme">
+		<!-- <link rel="stylesheet" href="css/print/pdf.css"> -->
+
+		<!-- For syntax highlighting -->
+		<link rel="stylesheet" href="lib/css/zenburn.css">
+
+		<!-- If the query includes 'print-pdf', include the PDF print sheet -->
+		<script>
+			if( window.location.search.match( /print-pdf/gi ) ) {
+				var link = document.createElement( 'link' );
+				link.rel = 'stylesheet';
+				link.type = 'text/css';
+				link.href = 'css/print/pdf.css';
+				document.getElementsByTagName( 'head' )[0].appendChild( link );
+			}
+		</script>
+
+		<!--[if lt IE 9]>
+		<script src="lib/js/html5shiv.js"></script>
+		<![endif]-->
+	</head>
+
+	<body>
+
+		<div class="reveal">
+			<img src="../images/transparent.png" width="200px" style="align:left;"/>
+
+			<!-- Any section element inside of this container is displayed as a slide -->
+			<div class="slides">
+				<section>
+					<h1>SMPT - Older than I am</h1>
+					<h3></h3>
+					<p>
+						<small>Developer Relations / Beard - <a href="mailto:toby.sims@pearson.com">Toby Sims</a> / <a href="http://twitter.com/4thfloor_monkey">@4thfloor_monkey</a></small>
+					</p>
+					<p>
+						<small>Find the slides at : <a href="http://londonapi.herokuapp.com">LondonAPI.herokuapp.com</a></small>
+					</p>
+				</section>
+
+<!-- slide 2 -->
+				<section>
+					<a href="http://mailjet.com"><img src="../images/Mailjet_logo.png" style="border: none;" alt="developer logo"/></a>
+						<br />
+						<div>
+							<ul>
+								<li><p>Cloud email</p></li>
+								<li><p>Transactional Email</p></li>
+								<li><p>Newsletter campaigns</p></li>
+								<li><p>.. Simplyfying email ..</p></li>
+							</ul>
+						</div>
+
+				</section>
+
+				<section>
+					<!-- slide 3 -->
+
+					<h2>A quick history of SMTP</h2>
+						<h3>Nice bits:</h3>
+						<ul>
+							<li class="fragment">It's old</li>
+							<li class="fragment">It's verbose by design</li>
+							<li class="fragment">A little slow</li>
+						</ul>
+
+
+
+				</section>
+				<section>
+					<!-- slide 4 -->
+
+					<h2>Verbosity and never knowing it was going to do anything else...</h2>
+					<ul>
+						<li class="fragment">EHLO (or HELO if you're old school)</li>
+						<li class="fragment">MAIL FROM</li>
+						<li class="fragment">RCPT TO</li>
+						<li class="fragment">DATA</li>
+					</ul>
+
+					<h3 class="fragment">Victory! Go mail client!</h3>
+				</section>
+
+				<section>
+					<pre>
+						<code>
+DATA
+354 Enter mail, end with "." on a line by itself
+Message-ID: kllsd0817184815.33912@theweb
+Date: Sun, 08 Aug 1883 18:48:15 +0200
+From: Mr Obama "obama@whitehouse.com"
+To: Anon "bloke@thedailysomething.com"
+Subject: "What I really think"</code>
+					</pre>
+				</section>
+
+				<section>
+						<h3>Obviously in the early days this was easy to spoof...</h3>
+						<p>
+							So in came:
+						</p>
+						<h2 class="fragment">
+							SPF
+						</h2>
+
+						<h2 class="fragment">
+							DKIM
+						</h2>
+
+				</section>
+
+
+				<section>
+
+					<h2>Binoculars out:</h2>
+					<img src="../images/binos.jpg" alt="binoculars" />
+					<h3>Looking at the future from way back when...</h3>
+				</section>
+
+				<section>
+					<h2>Could we imagine email being monitored for:</h2>
+						<ul>
+							<li class="fragment">The 111th time you forgot your pa455w0rd</li>
+							<li class="fragment">Marketing</li>
+								<ul>
+									<li class="fragment">Open rates</li>
+									<li class="fragment">Click throughs</li>
+									<li class="fragment">Bounce rates</li>
+								</ul>
+							<li class="fragment">How fast your mailing list grows or shrinks</li>
+							<li class="fragment">The cheeky people who mark it as spam</li>
+						</ul>
+				</section>
+
+
+				<section>
+					<h2>And spammers got more inventive...</h2>
+						<blockquote>
+							"If it can be spammed, spammers will attempt it"
+						</blockquote>
+						<br />
+
+						<p>
+						Life is hard
+						</p>
+				</section>
+
+
+				<section>
+					<h3>Thankfully to we are now down to one HTTP request</h3>
+
+					<pre>
+						<code data-trim>
+				curl --user "$MJ_APIKEY_PUBLIC:$MJ_APIKEY_PRIVATE" \
+        https://api.mailjet.com/v3/send \
+        -F from='you@example.com' \
+        -F to='receiver@example.com' \
+        -F subject='Hello Paris' \
+        -F text='Greetings from the city of lights.'
+						</code>
+					</pre>
+				</section>
+
+				<section>
+					<h4>What do we do to aid deliverability?</h4>
+						<ul>
+							<li>
+								SPF and DKIM
+							</li>
+							<li>
+								Dedicated IPs
+							</li>
+							<li>
+								Realtime statistics, feedback loops and good relationships with ISP's
+							</li>
+							<li>
+								Highly optimised send rates
+							</li>
+							<li>
+								A newsletter tool.
+							</li>
+
+
+						</ul>
+				</section>
+
+				<section>
+					<h3>So what about the API?</h3>
+						<ul>
+							<li class="fragment">
+								It's written in Pascal. Mostly.
+								<ul class="fragment">
+									<li>
+										Type safe
+									</li>
+									<li>
+										Pretty quick compilers
+									</li>
+									<li>
+										Good with strings (null terminated)
+									</li>
+								</ul>
+							</li>
+							<li class="fragment">
+								Very easy to integrate with C/C++
+							</li>
+							<li class="fragment">
+								It's pretty RESTful
+							</li>
+						</ul>
+				</section>
+
+				<section>
+					<h3>So, much easy email management:</h3>
+					<p>
+						Create a contact list...
+					</p>
+					<br />
+
+					<pre>
+						<code data-trim>
+						curl -X POST --user "$MJ_APIKEY_PUBLIC:$MJ_APIKEY_PRIVATE"
+https://api.mailjet.com/v3/REST/contactslist -H
+"Content-Type: application/json" -d
+'{"Name":"January Newsletter List"}'
+						</code>
+					</pre>
+
+				</section>
+
+				<section>
+					<h4>Add to a contact list:</h4>
+					<br />
+
+					<pre>
+						<code data-trim>
+						curl -X POST --user "$MJ_APIKEY_PUBLIC:$MJ_APIKEY_PRIVATE"
+https://api.mailjet.com/v3/REST/listrecipient -H "Content-Type: application/json" -d
+"{'ContactID':1, 'ListID':2, 'IsActive':True}"
+						</code>
+					</pre>
+
+				</section>
+
+
+				<section>
+
+					<h4>Once you've sent a shedload of emails:</h4>
+					<p>
+						Get yourself some message statistics...
+					</p>
+
+					<br />
+
+					<pre>
+						<code data-trim>
+						curl -X GET --user "$MJ_APIKEY_PUBLIC:$MJ_APIKEY_PRIVATE"
+https://api.mailjet.com/v3/REST/messagestatistics
+						</code>
+					</pre>
+
+				</section>
+
+				<section>
+					<pre>
+						<code data-trim>
+						{
+  "Count": 1,
+  "Data": [
+    {
+      "AverageClickDelay": 0,
+      "AverageClickedCount": 0,
+      "AverageOpenDelay": 0,
+      "AverageOpenedCount": 0,
+      "BlockedCount": 0,
+      "BouncedCount": 0,
+      "CampaignCount": 5,
+      "ClickedCount": 0,
+      "DeliveredCount": 5,
+      "OpenedCount": 0,
+      "ProcessedCount": 5,
+      "QueuedCount": 0,
+      "SpamComplaintCount": 0,
+      "TransactionalCount": 5,
+      "UnsubscribedCount": 0
+    }
+  ],
+  "Total": 1
+}
+						</code>
+					</pre>
+				</section>
+
+				<section>
+					<h4>
+						You can also have you emails parsed within your app via the Parse API
+					</h4>
+
+					<code>Play with much JSON</code>
+
+					<br />
+					<br />
+
+					<h4>Or have the Mailjet Event API hit a URL whenever an action occurs (much hits!)</h4>
+				</section>
+
+				<section>
+					<h4>Anyway enough of me...</h4>
+					<br />
+					<img src="../images/doge.gif">
+				</section>
+
+			</div>
+
+		</div>
+
+		<script src="lib/js/head.min.js"></script>
+		<script src="js/reveal.min.js"></script>
+
+		<script>
+
+			// Full list of configuration options available here:
+			// https://github.com/hakimel/reveal.js#configuration
+			Reveal.initialize({
+				controls: true,
+				progress: true,
+				history: true,
+				center: true,
+
+				theme: Reveal.getQueryHash().theme, // available themes are in /css/theme
+				transition: Reveal.getQueryHash().transition || 'default', // default/cube/page/concave/zoom/linear/fade/none
+
+				// Parallax scrolling
+				// parallaxBackgroundImage: 'https://s3.amazonaws.com/hakim-static/reveal-js/reveal-parallax-1.jpg',
+				// parallaxBackgroundSize: '2100px 900px',
+
+				// Optional libraries used to extend on reveal.js
+				dependencies: [
+					{ src: 'lib/js/classList.js', condition: function() { return !document.body.classList; } },
+					{ src: 'plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+					{ src: 'plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+					{ src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+					{ src: 'plugin/zoom-js/zoom.js', async: true, condition: function() { return !!document.body.classList; } },
+					{ src: 'plugin/notes/notes.js', async: true, condition: function() { return !!document.body.classList; } }
+				]
+			});
+
+		</script>
+
+	</body>
+</html>
